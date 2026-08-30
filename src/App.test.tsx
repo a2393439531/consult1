@@ -1,7 +1,10 @@
 import { render, screen } from '@testing-library/react'
+import { vi } from 'vitest'
 import { App } from './App'
 
-test('renders the study-site identity', () => {
+vi.mock('./data/manifest', () => ({ loadManifest: vi.fn().mockResolvedValue({ version: 1, chapters: [], exams: [], totals: { source_count: 0 } }) }))
+
+test('renders the study-site identity', async () => {
   render(<App />)
-  expect(screen.getByText('2026 咨询实务题库', { selector: 'strong' })).toBeInTheDocument()
+  expect(await screen.findByText('2026 咨询实务题库', { selector: 'strong' })).toBeInTheDocument()
 })

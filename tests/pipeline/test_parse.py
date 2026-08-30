@@ -16,6 +16,7 @@ def test_parse_case_with_multiple_questions_and_answers():
     assert len(cases) == 1
     assert len(cases[0].subquestions) == 2
     assert "政府资金" in cases[0].subquestions[0].answer.reference
+    assert "因果关系" in cases[0].subquestions[0].answer.analysis
     assert cases[0].sources[0].pages == [1]
 
 

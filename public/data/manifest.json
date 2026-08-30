@@ -5,67 +5,67 @@
       "id": "1",
       "number": 1,
       "title": "现代工程咨询方法",
-      "count": 7
+      "count": 5
     },
     {
       "id": "2",
       "number": 2,
       "title": "规划咨询的主要理论与方法",
-      "count": 14
+      "count": 11
     },
     {
       "id": "3",
       "number": 3,
       "title": "能源资源环境分析",
-      "count": 6
+      "count": 8
     },
     {
       "id": "4",
       "number": 4,
       "title": "战略分析",
-      "count": 4
+      "count": 3
     },
     {
       "id": "5",
       "number": 5,
       "title": "市场分析",
-      "count": 9
+      "count": 8
     },
     {
       "id": "6",
       "number": 6,
       "title": "重大项目谋划",
-      "count": 2
+      "count": 1
     },
     {
       "id": "7",
       "number": 7,
       "title": "现金流量分析",
-      "count": 6
+      "count": 5
     },
     {
       "id": "8",
       "number": 8,
       "title": "工程项目投资估算",
-      "count": 6
+      "count": 5
     },
     {
       "id": "9",
       "number": 9,
       "title": "融资方案分析",
-      "count": 8
+      "count": 7
     },
     {
       "id": "10",
       "number": 10,
       "title": "工程项目财务分析",
-      "count": 6
+      "count": 5
     },
     {
       "id": "11",
       "number": 11,
       "title": "工程项目经济分析",
-      "count": 9
+      "count": 8
     }
   ],
   "exams": [
@@ -385,24 +385,24 @@
     "source_count": 60,
     "source_pages": 980,
     "processed_source_count": 60,
-    "parsed_case_count": 116,
-    "published_case_count": 77,
-    "subquestion_count": 693,
-    "duplicate_group_count": 39,
+    "parsed_case_count": 95,
+    "published_case_count": 66,
+    "subquestion_count": 509,
+    "duplicate_group_count": 29,
     "review_item_count": 0,
     "source_failures": [],
     "chapter_counts": {
-      "1": 7,
-      "2": 14,
-      "3": 6,
-      "4": 4,
-      "5": 9,
-      "6": 2,
-      "7": 6,
-      "8": 6,
-      "9": 8,
-      "10": 6,
-      "11": 9
+      "1": 5,
+      "2": 11,
+      "3": 8,
+      "4": 3,
+      "5": 8,
+      "6": 1,
+      "7": 5,
+      "8": 5,
+      "9": 7,
+      "10": 5,
+      "11": 8
     },
     "exam_count": 16
   }

@@ -10,9 +10,9 @@ from .models import Answer, CaseQuestion, SourceDocument, SourceRef, SubQuestion
 CASE_START = re.compile(
     r"(?m)^(?:【?例题[^\n]*】?|案例[一二三四五六七八九十百]+|(?:练习|习题)[（(]\s*\d+[）)]|第\s*\d+\s*题)"
 )
-QUESTION_MARK = re.compile(r"(?:【问题】|问题\s*[：:]?)")
-ANSWER_MARK = re.compile(r"(?:【参考答案】|【答案】|『正确答案』|参考答案|正确答案)")
-ANALYSIS_MARK = re.compile(r"(?:【解析】|解析\s*[：:]?)")
+QUESTION_MARK = re.compile(r"(?m)^\s*(?:【问题】|问题\s*[：:]?)")
+ANSWER_MARK = re.compile(r"(?m)^\s*(?:【参考答案】|【答案】|『正确答案』|参考答案|正确答案)")
+ANALYSIS_MARK = re.compile(r"(?m)^\s*(?:【解析】|解析\s*[：:]?)")
 NUMBERED_ITEM = re.compile(r"(?m)^\s*(\d{1,2})[\.、)）]\s*")
 
 
@@ -21,7 +21,7 @@ def _blocks(text: str) -> list[tuple[str, int]]:
     if not starts:
         return [(text, 0)]
     blocks: list[tuple[str, int]] = []
-    if starts[0].start() > 0 and text[: starts[0].start()].strip():
+    if starts[0].start() > 0 and text[: starts[0].start()].strip() and (QUESTION_MARK.search(text[: starts[0].start()]) or ANSWER_MARK.search(text[: starts[0].start()])):
         blocks.append((text[: starts[0].start()], 0))
     for index, match in enumerate(starts):
         end = starts[index + 1].start() if index + 1 < len(starts) else len(text)
@@ -73,6 +73,7 @@ def _parse_block(source: SourceDocument, block: str, offset: int, index: int) ->
         answer_text = block[start:end].strip()
     analysis_text = block[analysis_matches[0].end() :].strip() if analysis_matches else ""
     answer_items = _split_items(answer_text + ("\n" + analysis_text if analysis_text else ""))
+    analysis_items = _split_items(analysis_text) if analysis_text else []
 
     if not question_texts:
         before_answer = block[: answer_matches[0].start()] if answer_matches else block
@@ -92,10 +93,12 @@ def _parse_block(source: SourceDocument, block: str, offset: int, index: int) ->
             ans = _answer("\n".join(answer_items))
         else:
             ans = _answer("本题答案详见完整解析。", analysis_text)
+        if analysis_text and not ans.analysis:
+            ans.analysis = analysis_items[q_index] if len(analysis_items) == len(question_texts) and q_index < len(analysis_items) else analysis_text
         subquestions.append(SubQuestion(id=f"{source.id}-{index:03d}-{q_index + 1}", prompt=prompt, answer=ans))
 
     title_line = next((line.strip() for line in block.splitlines() if line.strip()), f"资料 {source.id} 题目 {index + 1}")
-    page_start = 1 + block[: max(0, offset)].count("\f")
+    page_start = 1 + offset
     page_end = page_start + block.count("\f")
     ref = SourceRef(source_id=source.id, file_name=Path(source.relative_path).name, pages=list(range(page_start, page_end + 1)))
     return CaseQuestion(
@@ -113,4 +116,4 @@ def _parse_block(source: SourceDocument, block: str, offset: int, index: int) ->
 
 def parse_document(source: SourceDocument, text: str) -> list[CaseQuestion]:
     cleaned = clean_text(text)
-    return [_parse_block(source, block, offset, index) for index, (block, offset) in enumerate(_blocks(cleaned), start=1) if block.strip()]
+    return [_parse_block(source, block, cleaned[:offset].count("\f"), index) for index, (block, offset) in enumerate(_blocks(cleaned), start=1) if block.strip()]
