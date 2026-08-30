@@ -1,0 +1,25 @@
+{
+  "source_count": 60,
+  "source_pages": 980,
+  "processed_source_count": 60,
+  "parsed_case_count": 116,
+  "published_case_count": 77,
+  "subquestion_count": 693,
+  "duplicate_group_count": 39,
+  "review_item_count": 0,
+  "source_failures": [],
+  "chapter_counts": {
+    "1": 7,
+    "2": 14,
+    "3": 6,
+    "4": 4,
+    "5": 9,
+    "6": 2,
+    "7": 6,
+    "8": 6,
+    "9": 8,
+    "10": 6,
+    "11": 9
+  },
+  "exam_count": 16
+}
