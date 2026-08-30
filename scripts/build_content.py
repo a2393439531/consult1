@@ -16,7 +16,7 @@ from .parse import parse_document
 
 def _is_exam(source: SourceDocument) -> bool:
     path = source.relative_path.lower()
-    return any(token in path for token in ("模考", "真题", "万人模考"))
+    return any(token in path for token in ("模考", "模拟", "真题", "试卷", "点睛卷", "揭秘卷"))
 
 
 def _exam_title(source: SourceDocument) -> str:
@@ -24,7 +24,8 @@ def _exam_title(source: SourceDocument) -> str:
 
 
 def _duration(source: SourceDocument) -> int:
-    return 180 if "真题" in source.relative_path else 120
+    path = source.relative_path
+    return 180 if any(token in path for token in ("真题", "模拟", "试卷", "点睛卷", "揭秘卷")) else 120
 
 
 def build_content(manifest_path: Path, raw_dir: Path, output_dir: Path) -> dict[str, object]:

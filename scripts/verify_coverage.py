@@ -5,17 +5,27 @@ import json
 from pathlib import Path
 
 
-def verify(manifest_path: Path, coverage_path: Path, data_dir: Path) -> list[str]:
+def verify(
+    manifest_path: Path,
+    coverage_path: Path,
+    data_dir: Path,
+    expected_sources: int | None = None,
+    expected_pages: int | None = None,
+) -> list[str]:
     source_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     coverage = json.loads(coverage_path.read_text(encoding="utf-8"))
     errors: list[str] = []
-    if len(source_manifest) != 60:
-        errors.append(f"expected 60 PDF sources, got {len(source_manifest)}")
-    if coverage.get("source_count") != 60:
-        errors.append(f"coverage source_count is {coverage.get('source_count')}")
-    if coverage.get("source_pages") != 980:
-        errors.append(f"coverage source_pages is {coverage.get('source_pages')}")
-    if coverage.get("processed_source_count") != 60:
+    source_count = len(source_manifest)
+    source_pages = sum(item.get("pages", 0) for item in source_manifest)
+    if expected_sources is not None and source_count != expected_sources:
+        errors.append(f"expected {expected_sources} PDF sources, got {source_count}")
+    if expected_pages is not None and source_pages != expected_pages:
+        errors.append(f"expected {expected_pages} source pages, got {source_pages}")
+    if coverage.get("source_count") != source_count:
+        errors.append(f"coverage source_count is {coverage.get('source_count')}, manifest has {source_count}")
+    if coverage.get("source_pages") != source_pages:
+        errors.append(f"coverage source_pages is {coverage.get('source_pages')}, manifest has {source_pages}")
+    if coverage.get("processed_source_count") != source_count:
         errors.append(f"only {coverage.get('processed_source_count')} sources processed")
     if coverage.get("source_failures"):
         errors.append(f"source failures: {len(coverage['source_failures'])}")
@@ -37,8 +47,10 @@ def main() -> None:
     parser.add_argument("manifest", type=Path)
     parser.add_argument("coverage", type=Path)
     parser.add_argument("data_dir", type=Path)
+    parser.add_argument("--expected-sources", type=int)
+    parser.add_argument("--expected-pages", type=int)
     args = parser.parse_args()
-    errors = verify(args.manifest, args.coverage, args.data_dir)
+    errors = verify(args.manifest, args.coverage, args.data_dir, args.expected_sources, args.expected_pages)
     if errors:
         for error in errors:
             print(f"ERROR: {error}")
