@@ -12,6 +12,21 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .site-shell { min-height: 100vh; }
 
+.auth-page { display: grid; min-height: 100vh; place-items: center; padding: 1.5rem; background: radial-gradient(circle at 20% 20%, var(--teal-pale), transparent 38%), var(--paper); }
+.auth-card { width: min(100%, 460px); padding: clamp(2rem, 7vw, 4rem); border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); }
+.auth-mark { display: grid; place-items: center; width: 3rem; height: 3rem; margin-bottom: 2rem; border-radius: 10px; color: #f5f2ea; background: var(--teal); font-size: 1.35rem; font-weight: 800; }
+.auth-card h1 { margin: 0.5rem 0 0.9rem; font-family: Georgia, "Songti SC", serif; font-size: clamp(2rem, 7vw, 3.5rem); font-weight: 500; line-height: 1.1; }
+.auth-copy { margin: 0 0 1.8rem; color: var(--ink-soft); line-height: 1.8; }
+.auth-card form { display: grid; gap: 0.65rem; }
+.auth-card label { color: var(--ink-soft); font-size: 0.82rem; font-weight: 800; }
+.auth-card input { width: 100%; padding: 0.85rem 0.9rem; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--ink); background: var(--paper); font: inherit; }
+.auth-card input:focus { border-color: var(--teal); outline: 3px solid color-mix(in srgb, var(--teal) 22%, transparent); }
+.auth-submit { width: 100%; margin-top: 0.5rem; border: 0; cursor: pointer; }
+.auth-error { margin: 0.25rem 0 0; color: var(--orange); font-size: 0.82rem; }
+.auth-note { margin: 1.3rem 0 0; color: var(--ink-soft); font-size: 0.75rem; line-height: 1.6; }
+.auth-logout { padding: 0; border: 0; color: var(--ink-soft); background: transparent; font: inherit; font-size: 0.88rem; cursor: pointer; }
+.auth-logout:hover { color: var(--orange); }
+
 .site-header {
   display: flex;
   align-items: center;
