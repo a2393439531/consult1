@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 
 const AUTH_STORAGE_KEY = 'consult1-authenticated-v1'
-const ACCESS_CODE_HASH = '83ed758908464a0591491a488031f35536e3a07d87d954ef8fc419b3d0ff87c0'
+const ACCESS_CODE_HASH = '0fe36529e7da10560d1a09915b4b3458f04b74d809c6493df2ddf0039f9b0787'
 
 type AuthContextValue = { logout: () => void }
 const AuthContext = createContext<AuthContextValue>({ logout: () => undefined })
